@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Detail Page</title>
+  <link rel="shortcut icon" href="../static/favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="../static/bootstrap.min.css">
+  <link rel="stylesheet" href="../static/dc.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <style>
+    h2 {
+      float: right;
+      /* font-size: 16px; */
+    }
+
+    h2 span {
+      font-size: 12px;
+      font-weight: normal;
+    }
+
+    .chart-title {
+      font-size: 20px;
+    }
+
+    .panel-heading .chart-title1 h3 {
+      font-size: 10px;
+    }
+
+    .dc-chart select {
+      width: 150px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="navbar-wrapper">
+    <div class="container">
+      <nav class="navbar navbar-inverse navbar-static-top" role="navigation">
+        <div class="container-fluid">
+          <!-- Brand and toggle get grouped for better mobile display -->
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
+              aria-expanded="false">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="https://netelixir.com" target="_blank">NetElixir</a>
+          </div>
+
+          <!-- Collect the nav links, forms, and other content for toggling -->
+          <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+              <li>
+                <a href="/">Home
+                </a>
+              </li>
+              <li>
+                <a href="/summary?account={{account.replace(' ', '_')}}">Summary
+                </a>
+              </li>
+              <li class="active">
+                <a class="disabled">Detail Page</a>
+                <span class="sr-only">(current)</span>
+              </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{name}}
+                  <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu">
+                  <li>
+                    <a href="{{ url_for('logout') }}">Log out</a>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+          <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container-fluid -->
+      </nav>
+    </div>
+  </div>
+  <div class="container">
+    <div class='row'>
+      <div class="col-lg-1">
+
+      </div>
+      <div class="col-lg-10">
+        <div class="dc-data-count" style='float:left'>
+          <h2>Social Peformance Monthly Report
+            <span>
+              <span class="filter-count"></span>
+              Selected out of
+              <span class="total-count"></span>
+              records
+              <hr style="width: 1px; height: 20px; display: inline-block;">
+              <span>
+                Date From
+                <i class="fa fa-calendar" aria-hidden="true"></i>
+                <span id="date-from" style="color: peru"></span>
+                To
+                <i class="fa fa-calendar" aria-hidden="true"></i>
+                <span id="date-to" style="color: peru"></span>
+              </span>
+              <hr style="width: 1px; height: 20px; display: inline-block;">
+              <a href="javascript:dc.filterAll(); dc.renderAll();">Reset All</a>
+            </span>
+          </h2>
+        </div>
+      </div>
+      <div class="col-lg-1">
+
+      </div>
+
+    </div>
+    <!--  End of row 1 -->
+    <div class="row">
+      <div class="col-lg-1">
+
+      </div>
+      <div class="col-lg-10">
+        <div class="panel panel-default">
+          <div class="panel-heading chart-title">
+            <h3>Number of Engagements Per day</h3>
+
+          </div>
+          <div class="panel-body">
+            <span>
+              <div id="chart1">
+                <span>
+                  <span class="reset" style="display: none;">range:
+                    <span class="filter"></span>
+                  </span>
+                  <a class="reset" href="javascript:engChart.filterAll();dc.redrawAll();" style="display:none">reset
+                  </a>
+                </span>
+              </div>
+            </span>
+          </div>
+        </div>
+        <!-- End of panel 1-->
+      </div>
+      <div class="col-lg-1">
+      </div>
+    </div>
+    <!-- End of row 2 -->
+    <div class="row">
+      <div class="col-lg-1">
+
+      </div>
+      <div class="col-lg-5">
+        <div class="panel panel-default">
+          <div class="panel-heading chart-title">
+            <h3>Number of Link Clicks per day</h3>
+          </div>
+          <div class="panel-body">
+            <div id="chart2">
+            </div>
+            </span>
+          </div>
+        </div>
+        <!-- End of panel 1-->
+      </div>
+      <div class="col-lg-5">
+        <div class="panel panel-default">
+          <div class="panel-heading chart-title">
+            <h3>Conversion Revenue per day</h3>
+          </div>
+          <div class="panel-body">
+            <div id="chart3">
+            </div>
+            </span>
+          </div>
+        </div>
+        <!-- End of panel 2-->
+      </div>
+      <div class="col-lg-1">
+
+      </div>
+    </div>
+    <!--  End of row 3 -->
+    <div class="row">
+      <div class="col-lg-1">
+
+      </div>
+      <div class="col-lg-4">
+        <div class="panel panel-default">
+          <div class="panel-heading chart-title">
+            <h3>Impressions by day of week</h3>
+          </div>
+          <div class="panel-body">
+            <div id="chart4">
+            </div>
+            </span>
+          </div>
+        </div>
+        <!-- End of panel 1-->
+      </div>
+      <div class="col-lg-3">
+        <div class="panel panel-default">
+          <div class="panel-heading chart-title1">
+            <h3>Page likes by day of week</h3>
+          </div>
+          <div class="panel-body">
+            <div id="chart5">
+            </div>
+            </span>
+          </div>
+        </div>
+        <!-- End of panel 1-->
+      </div>
+      <div class="col-lg-3">
+        <div class="panel panel-default">
+          <div class="panel-heading chart-title">
+            <h3>CTR by day of week</h3>
+          </div>
+          <div class="panel-body">
+            <div id="chart6">
+            </div>
+            </span>
+          </div>
+        </div>
+        <!-- End of panel 1-->
+      </div>
+    </div>
+    <!--  End of row 4 -->
+    <div class="row">
+      <div class="col-lg-12">
+        <table class="table table-hover table-bordered dc-chart" id="dc-table-graph" id="example">
+          <thead>
+            <tr class="header" style="background-color: #333; color:white">
+              <th>
+                <strong>Date</strong>
+              </th>
+              <th>
+                <strong>Campaign name</strong>
+              </th>
+              <th>
+                <strong>Reach</strong>
+              </th>
+              <th>
+                <strong>Link Clicks</strong>
+              </th>
+              <th>
+                <strong>Amount Spent</strong>
+              </th>
+              <th>
+                <strong>CTR</strong>
+              </th>
+              <th>
+                <strong>Post Engagement</strong>
+              </th>
+              <th>
+                <strong>Page Likes</strong>
+              </th>
+            </tr>
+          </thead>
+        </table>
+      </div>
+
+    </div>
+    <!--  End of row 5 -->
+  </div>
+  <!-- end of container -->
+  <footer class="footer">
+    <div class="container">
+      <span class="text-muted">
+        &copy; 2017
+        <a href="https://netelixir.com" target="_blank">NetElixir.</a>
+      </span>
+    </div>
+  </footer>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="../static/bootstrap.min.js"></script>
+  <script src="../static/d3.js"></script>
+  <script src="../static/crossfilter.js"></script>
+  <script src="../static/dc.min.js"></script>
+  <script src="../static/queue.js"></script>
+  <script>
+    var dataTable = dc.dataTable("#dc-table-graph");
+    var engChart = dc.barChart("#chart1");
+    var clicksChart = dc.lineChart("#chart2");
+    var revenueChart = dc.lineChart("#chart3");
+    var dayImpChart = dc.rowChart("#chart4");
+    var likesbyDay = dc.pieChart("#chart5");
+    var dayCTRChart = dc.rowChart("#chart6");
+
+
+    queue()
+      .defer(d3.json, "/fbdata?account={{ account.replace(' ', '_') }}")
+      .await(makeGraphs);
+
+    function makeGraphs(error, json_projects) {
+      console.log(json_projects[0]);
+      var dateFormat = d3.time.format("%Y-%m-%d");
+      json_projects.forEach(function (d) {
+        d["Date"] = dateFormat.parse(d["Date"]);
+        d["Post_engagements"] = +d["Post_engagements"];
+        d["Reach"] = +d["Reach"];
+        d["Impressions"] = +d["Impressions"];
+        d["Link_clicks"] = +d["Link_clicks"];
+        d["Amount_spent"] = parseFloat(d["Amount_spent"]);
+        d["Website_purchases"] = +d["Website_purchases"];
+        d["Website_purchases_conversion_value"] = parseFloat(
+          d["Website_purchases_conversion_value"]
+        );
+        d["Page_likes"] = +d["Page_likes"];
+        d["Post_engagements"] = +d["Post_engagements"];
+        d["month"] = +d["month"];
+        d["year"] = +d["year"];
+        d["day_of_week"] = +d["day_of_week"];
+        d["CTR"] = parseFloat(d["CTR"]);
+      });
+
+      var facts = crossfilter(json_projects);
+      var all = facts.groupAll();
+      var dateDimension = facts.dimension(function (d) {
+        return d["Date"];
+      });
+      dc
+        .dataCount(".dc-data-count")
+        .dimension(facts)
+        .group(all);
+
+      var minDate = dateDimension.bottom(1)[0]["Date"];
+      var maxDate = dateDimension.top(1)[0]["Date"];
+
+      document.getElementById(
+        "date-from"
+      ).textContent = minDate.toLocaleDateString();
+
+      document.getElementById("date-to").textContent = maxDate.toLocaleDateString();
+      var totalEngByDate = dateDimension.group().reduceSum(function (d) {
+        return d["Post_engagements"];
+      });
+      letterDimension = facts.dimension(function (d) {
+        return d['Campaign_name'];
+      })
+
+
+      engChart
+        // .width(300)
+        .width(768)
+        .height(240)
+        .margins({
+          top: 10,
+          right: 10,
+          bottom: 25,
+          left: 40
+        })
+        .dimension(dateDimension)
+        .group(totalEngByDate)
+        .transitionDuration(500)
+        .brushOn(true)
+        .gap(1)
+        .centerBar(true)
+        .x(d3.time.scale().domain([minDate, maxDate]))
+        .elasticY(true)
+        .renderHorizontalGridLines(true)
+        .round(d3.time.day.round)
+        .alwaysUseRounding(true)
+        .xUnits(d3.time.days)
+        .xAxis()
+        .tickFormat(d3.time.format("%d%b"));
+
+      var totalClicksByDate = dateDimension.group().reduceSum(function (d) {
+        return d["Link_clicks"];
+      });
+      clicksChart
+        .renderArea(false)
+        .renderHorizontalGridLines(true)
+        // .width(300)
+        .width(350)
+        .height(220)
+        .margins({
+          top: 10,
+          right: 10,
+          bottom: 25,
+          left: 40
+        })
+        .dimension(dateDimension)
+        .group(totalClicksByDate, "Revenue")
+        .transitionDuration(500)
+        .elasticX(true)
+        .x(d3.time.scale().domain([minDate, maxDate]))
+        .xAxis()
+        .tickFormat(d3.time.format("%d%b"))
+        .ticks(4);
+
+      var totalRevenueByDate = dateDimension.group().reduceSum(function (d) {
+        return d["Website_purchases_conversion_value"];
+      });
+      revenueChart
+        .renderArea(true)
+        .renderHorizontalGridLines(true)
+        // .width(300)
+        .width(350)
+        .height(220)
+        .margins({
+          top: 10,
+          right: 10,
+          bottom: 25,
+          left: 40
+        })
+        .dimension(dateDimension)
+        .group(totalRevenueByDate, "Revenue Conversion")
+        .transitionDuration(500)
+        .elasticX(true)
+        .x(d3.time.scale().domain([minDate, maxDate]))
+        .xAxis()
+        .ticks(4);
+      var dayOfWeekValue = facts.dimension(function (d) {
+        return d["day_of_week_name"];
+      });
+      var totalImpByDay = dayOfWeekValue.group().reduceSum(function (d) {
+        return d["Impressions"];
+      });
+
+      dayImpChart.width(220).height(220).dimension(dayOfWeekValue).group(totalImpByDay).colors(d3.scale.category10())
+        .elasticX(true).ordering(function (d) {
+          return -d.value;
+        }).xAxis().ticks(4);
+
+
+      var totalCTRByDay = dayOfWeekValue.group().reduceSum(function (d) {
+        return d["CTR"];
+      });
+      dayCTRChart.width(220).height(220).dimension(dayOfWeekValue).group(totalCTRByDay).colors(d3.scale.category10())
+        .elasticX(true).ordering(function (d) {
+          return -d.value;
+        }).xAxis().ticks(4);
+
+      var totalLikesByDay = dayOfWeekValue.group().reduceSum(function (d) {
+        return d["Page_likes"];
+      });
+      likesbyDay.width(220).height(220).radius(100).innerRadius(40).dimension(dayOfWeekValue).title(function (d) {
+        return
+        d.value;
+      }).group(totalLikesByDay);
+
+
+      dataTable
+        .width(960)
+        .height(800)
+        .dimension(dateDimension)
+        .group(function (d) {
+          return "Detailed Information Data";
+        })
+        .size(10)
+        .columns([
+          function (d) {
+            return d["Date"].toLocaleDateString();
+          },
+          function (d) {
+            return d["Campaign_name"];
+          },
+          function (d) {
+            return d["Reach"];
+          },
+          function (d) {
+            return d["Link_clicks"];
+          },
+          function (d) {
+            return d["Amount_spent"];
+          },
+          function (d) {
+            return d["CTR"];
+          },
+          function (d) {
+            return d["Post_engagements"];
+          },
+          function (d) {
+            return d["Page_likes"];
+          }
+        ])
+        .sortBy(function (d) {
+          return -d["Date"];
+        })
+        .order(d3.ascending);
+
+      // Render the charts
+      dc.renderAll();
+    }
+  </script>
+</body>
+
+</html>

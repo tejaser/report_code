@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Home Page</title>
+  <link rel="shortcut icon" href="../static/image/favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="../static/bootstrap.min.css">
+  <!-- <link rel="stylesheet" href="../static/dc.min.css"> -->
+</head>
+
+<body>
+  <div class="navbar-wrapper">
+    <div class="container">
+      <nav class="navbar navbar-inverse navbar-static-top">
+        <div class="container-fluid">
+          <!-- Brand and toggle get grouped for better mobile display -->
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
+              aria-expanded="false">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="https://netelixir.com" target="_blank">NetElixir</a>
+          </div>
+
+          <!-- Collect the nav links, forms, and other content for toggling -->
+          <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+              <li class="active">
+                <a href="/home">Home
+                  <span class="sr-only">(current)</span>
+                </a>
+              </li>
+              <li class="">
+                <a class="disabled">Summary
+                  <!-- <span class="sr-only">(current)</span> -->
+                </a>
+              </li>
+              <li>
+                <a class="disabled">Detail Page</a>
+              </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{name}}
+                  <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu">
+                  <li>
+                    <a href="{{ url_for('logout') }}">Log out</a>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+          <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container-fluid -->
+      </nav>
+    </div>
+  </div>
+  <div class="container">
+    {% for company in companies %}
+    <div class="col-lg-4">
+      <div class="panel panel-primary">
+        <div class="panel-body">
+          <a href="summary?account={{company.replace(' ', '_')}}">{{company}}</a>
+        </div>
+      </div>
+      <!-- End of panel 1-->
+    </div>
+    {% endfor %}
+  </div>
+  <footer class="footer">
+    <div class="container">
+      <span class="text-muted">
+        &copy; 2017
+        <a href="https://netelixir.com" target="_blank">NetElixir.</a>
+      </span>
+    </div>
+  </footer>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="../static/bootstrap.min.js"></script>
+
+</body>
+
+</html>

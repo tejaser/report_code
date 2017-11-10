@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Summary Page</title>
+  <link rel="shortcut icon" href="../static/favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="../static/bootstrap.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <style>
+    .chart-body {
+      font-size: 40px;
+    }
+
+    .chart-title {
+      font-size: 14px;
+      text-align: center;
+    }
+
+    .fa-arrow-up {
+      color: green
+    }
+
+    .fa-arrow-down {
+      color: red
+    }
+  </style>
+</head>
+
+<body>
+  <div class="navbar-wrapper">
+    <div class="container">
+      <nav class="navbar navbar-inverse navbar-static-top">
+        <div class="container-fluid">
+          <!-- Brand and toggle get grouped for better mobile display -->
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
+              aria-expanded="false">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="https://netelixir.com" target="_blank">NetElixir</a>
+          </div>
+
+          <!-- Collect the nav links, forms, and other content for toggling -->
+          <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+              <li class="">
+                <a href="/home?name={{name}}">Home
+                  <!-- <span class="sr-only">(current)</span> -->
+                </a>
+              </li>
+              <li class="active">
+                <a class="disabled">Summary
+                  <span class="sr-only">(current)</span>
+                </a>
+              </li>
+              <li>
+                <a href="/detail?account={{account.replace(' ', '_')}}">Detail Page</a>
+              </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{name}}
+                  <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu">
+                  <li>
+                    <a href="{{ url_for('logout') }}">Log out</a>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+          <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container-fluid -->
+      </nav>
+    </div>
+  </div>
+  <div class="container">
+    <h2>{{account}}</h2>
+    <div class='row'>
+      <div class="col-lg-4">
+        <div class="panel panel-default">
+          <div class="panel-heading chart-title">
+            <h3>Facebook Revenue(in dollars)</h3>
+          </div>
+          <div class="panel-body chart-body">
+            <span>
+              <i class="fa fa-dollar" style='color:blue'></i>
+              {{ "{:,.2f}".format(cm_fb_rev) }}
+            </span>
+          </div>
+          <div class="panel-footer">
+            Previous Month Value:
+            <span>${{ "{0:0.2f}".format(lm_fb_rev) }}</span>
+            <br>
+            <span>
+              {% if ((fb_rev_change) == 'NA') %} Change {{fb_rev_change}}
+              <i class="fa fa-arrows-h"></i>
+              {% else %} Change {{"{0:0.2f}%".format(fb_rev_change) }} {% if ((fb_rev_change)|int > 0) %}
+              <i class="fa fa-arrow-up"></i>
+              {% elif ((fb_rev_change)|int == 0) %}
+              <i class="fa fa-arrows-h"></i>
+              {% else %}
+              <i class="fa fa-arrow-down"></i>
+              {% endif %} {% endif %}
+            </span>
+          </div>
+        </div>
+        <!-- End of panel 1-->
+      </div>
+      <div class='col-lg-4'>
+        <div class="panel panel-default">
+          <div class="panel-heading chart-title">
+            <h3>GA Revenue (in dollars) </h3>
+          </div>
+          <div class="panel-body chart-body">
+            <span>
+              <i class="fa fa-dollar" style='color:limegreen'></i>
+              {{ "{:,.2f}".format(cm_ga_rev) }}
+            </span>
+          </div>
+          <div class="panel-footer">
+            Previous Month Value:
+            <span>$ {{ "{0:0.2f}".format(lm_ga_rev) }}</span>
+            <br>
+            <span>
+              {% if ((ga_rev_change) == 'NA') %} Change {{ga_rev_change}}
+              <i class="fa fa-arrows-h"></i>
+              {% else %} Change {{"{0:0.2f}%".format(ga_rev_change) }} {% if ((ga_rev_change)|int > 0) %}
+              <i class="fa fa-arrow-up"></i>
+              {% elif ((ga_rev_change)|int == 0) %}
+              <i class="fa fa-arrows-h"></i>
+              {% else %}
+              <i class="fa fa-arrow-down"></i>
+              {% endif %} {% endif %}
+            </span>
+          </div>
+        </div>
+        <!-- End of panel 2-->
+      </div>
+      <div class='col-lg-4'>
+        <div class="panel panel-default">
+          <div class="panel-heading chart-title">
+            <h3>GA Orders</h3>
+          </div>
+          <div class="panel-body chart-body">
+            <span>
+              <i class="fa fa-shopping-bag" style='color:dodgerblue'></i>
+              {{ "{0:,}".format(cm_ga_orders) }}
+            </span>
+          </div>
+          <div class="panel-footer">
+            Previous Month Value:
+            <span>{{ "{0:,}".format(lm_ga_orders) }}</span>
+            <br>
+            <span>
+              {% if ((ga_orders_change) == 'NA') %} Change {{ga_orders_change}}
+              <i class="fa fa-arrows-h"></i>
+              {% else %} Change {{ "{0:0.2f}%".format(ga_orders_change) }} {% if ((ga_orders_change)|int > 0) %}
+              <i class="fa fa-arrow-up"></i>
+              {% elif ((ga_orders_change)|int == 0) %}
+              <i class="fa fa-arrows-h"></i>
+              {% else %}
+              <i class="fa fa-arrow-down"></i>
+              {% endif %} {% endif %}
+            </span>
+          </div>
+        </div>
+        <!-- End of panel 3-->
+      </div>
+    </div>
+    <!--  End of row 1 -->
+    <div class='row'>
+      <div class="col-lg-4">
+        <div class="panel panel-default">
+          <div class="panel-heading chart-title">
+            <h3>Facebook Reach</h3>
+          </div>
+          <div class="panel-body chart-body">
+            <span>
+              <i class="fa fa-address-card" style='color:RebeccaPurple'></i>
+              {{ "{0:,}".format(cm_fb_reach) }}
+            </span>
+          </div>
+          <div class="panel-footer">
+            Previous Month Value:
+            <span>{{ "{0:,}".format(lm_fb_reach) }}</span>
+            <br>
+            <span>
+              {% if ((fb_reach_change) == 'NA') %} Change {{fb_reac_change}}
+              <i class="fa fa-arrows-h"></i>
+              {% else %} Change {{"{0:0.2f}%".format(fb_reach_change) }} {% if ((fb_reach_change)|int > 0) %}
+              <i class="fa fa-arrow-up"></i>
+              {% elif ((fb_reach_change)|int == 0) %}
+              <i class="fa fa-arrows-h"></i>
+              {% else %}
+              <i class="fa fa-arrow-down"></i>
+              {% endif %} {% endif %}
+            </span>
+          </div>
+        </div>
+        <!-- End of panel 4-->
+      </div>
+      <div class='col-lg-4'>
+        <div class="panel panel-default">
+          <div class="panel-heading chart-title">
+            <h3>Facebook clicks </h3>
+          </div>
+          <div class="panel-body chart-body">
+            <span>
+              <i class="fa fa-mouse-pointer"></i>
+              {{ "{0:,}".format(cm_fb_clicks) }}
+            </span>
+          </div>
+          <div class="panel-footer">
+            Previous Month Value:
+            <span> {{ "{0:,}".format(lm_fb_clicks) }}</span>
+            <br>
+            <span>
+              {% if ((fb_clicks_change) == 'NA') %} Change {{fb_clicks_change}}
+              <i class="fa fa-arrows-h"></i>
+              {% else %} Change {{"{0:0.2f}%".format(fb_clicks_change) }} {% if ((fb_clicks_change)|int > 0) %}
+              <i class="fa fa-arrow-up"></i>
+              {% elif ((fb_clicks_change)|int == 0) %}
+              <i class="fa fa-arrows-h"></i>
+              {% else %}
+              <i class="fa fa-arrow-down"></i>
+              {% endif %} {% endif %}
+            </span>
+          </div>
+        </div>
+        <!-- End of panel 5-->
+      </div>
+      <div class='col-lg-4'>
+        <div class="panel panel-default">
+          <div class="panel-heading chart-title">
+            <h3>Facebook Impressions</h3>
+          </div>
+          <div class="panel-body chart-body">
+            <span>
+              <i class="fa fa-eye" style='color:dodgerblue'></i>
+              {{ "{0:,}".format(cm_fb_impression) }}
+            </span>
+          </div>
+          <div class="panel-footer">
+            Previous Month Value:
+            <span>{{ "{0:,}".format(lm_fb_impression) }}</span>
+            <br>
+            <span>
+              {% if ((fb_impression_change) == 'NA') %} Change {{fb_impression_change}}
+              <i class="fa fa-arrows-h"></i>
+              {% else %} Change {{ "{0:0.2f}%".format(fb_impression_change) }} {% if ((fb_impression_change)|int > 0) %}
+              <i class="fa fa-arrow-up"></i>
+              {% elif ((fb_impression_change)|int == 0) %}
+              <i class="fa fa-arrows-h"></i>
+              {% else %}
+              <i class="fa fa-arrow-down"></i>
+              {% endif %} {% endif %}
+            </span>
+          </div>
+        </div>
+        <!-- End of panel 6-->
+      </div>
+    </div>
+    <!--  End of row 2 -->
+  </div>
+  <footer class="footer">
+    <div class="container">
+      <span class="text-muted">
+        &copy; 2017
+        <a href="https://netelixir.com" target="_blank">NetElixir.</a>
+      </span>
+    </div>
+  </footer>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="../static/bootstrap.min.js"></script>
+</body>
+
+</html>
