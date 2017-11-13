@@ -13,8 +13,6 @@ from bson.json_util import dumps
 from flask_login import LoginManager, UserMixin, login_required, logout_user, current_user, login_user
 # from credens import *
 
-
-MAX_LIMIT = 80000
 # print a nice greeting.
 
 FIELDS = {}
@@ -70,6 +68,7 @@ def login():
     return render_template('login.html', form=form)
 
 @application.route('/signup', methods=['GET', 'POST'])
+@login_required
 def signup():
     form = RegistrationForm()
     if form.validate_on_submit():
@@ -141,8 +140,6 @@ def summary(account=None):
             lm_fb_impression = item['Impressions']
     if((lm_ga_rev == 0.0) or (lm_fb_rev == 0.0) or (lm_fb_reach == 0) or (lm_fb_clicks == 0) or (lm_fb_impression == 0) or (lm_ga_orders == 0)):
         ga_rev_change, ga_orders_change, fb_rev_change, fb_reach_change, fb_clicks_change, fb_impression_change = ['NA' for _ in range(6)]
-        print("last month ", lm_ga_rev, lm_ga_orders, lm_fb_rev, lm_fb_reach, lm_fb_clicks, lm_fb_impression)
-        print("change value ", ga_rev_change, ga_orders_change, fb_rev_change, fb_reach_change, fb_clicks_change, fb_impression_change)
     else:
         ga_rev_change        = ((cm_ga_rev - lm_ga_rev)/lm_ga_rev) * 100
         ga_orders_change     = ((cm_ga_orders - lm_ga_orders)/lm_ga_orders) * 100

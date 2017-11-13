@@ -128,7 +128,7 @@
       <div class="col-lg-10">
         <div class="panel panel-default">
           <div class="panel-heading chart-title">
-            <h3>Number of Engagements Per day</h3>
+            <h3>Engagements Per Day</h3>
 
           </div>
           <div class="panel-body">
@@ -158,7 +158,7 @@
       <div class="col-lg-5">
         <div class="panel panel-default">
           <div class="panel-heading chart-title">
-            <h3>Number of Link Clicks per day</h3>
+            <h3>Link Clicks Per Day</h3>
           </div>
           <div class="panel-body">
             <div id="chart2">
@@ -171,7 +171,7 @@
       <div class="col-lg-5">
         <div class="panel panel-default">
           <div class="panel-heading chart-title">
-            <h3>Conversion Revenue per day</h3>
+            <h3>Conversion Revenue Per Day</h3>
           </div>
           <div class="panel-body">
             <div id="chart3">
@@ -193,7 +193,7 @@
       <div class="col-lg-4">
         <div class="panel panel-default">
           <div class="panel-heading chart-title">
-            <h3>Impressions by day of week</h3>
+            <h3>Impressions by Day of Week</h3>
           </div>
           <div class="panel-body">
             <div id="chart4">
@@ -206,7 +206,7 @@
       <div class="col-lg-3">
         <div class="panel panel-default">
           <div class="panel-heading chart-title1">
-            <h3>Page likes by day of week</h3>
+            <h3>Page Likes by Day of Week</h3>
           </div>
           <div class="panel-body">
             <div id="chart5">
@@ -219,7 +219,7 @@
       <div class="col-lg-3">
         <div class="panel panel-default">
           <div class="panel-heading chart-title">
-            <h3>CTR by day of week</h3>
+            <h3>CTR by Day of Week</h3>
           </div>
           <div class="panel-body">
             <div id="chart6">
@@ -298,7 +298,6 @@
       .await(makeGraphs);
 
     function makeGraphs(error, json_projects) {
-      console.log(json_projects[0]);
       var dateFormat = d3.time.format("%Y-%m-%d");
       json_projects.forEach(function (d) {
         d["Date"] = dateFormat.parse(d["Date"]);
