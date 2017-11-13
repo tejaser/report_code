@@ -50,7 +50,7 @@
           <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
               <li class="">
-                <a href="/home?name={{name}}">Home
+                <a href="/home">Home
                   <!-- <span class="sr-only">(current)</span> -->
                 </a>
               </li>
@@ -98,7 +98,7 @@
           </div>
           <div class="panel-footer">
             Previous Month Value:
-            <span>${{ "{0:0.2f}".format(lm_fb_rev) }}</span>
+            <span>${{ "{:,.2f}".format(lm_fb_rev) }}</span>
             <br>
             <span>
               {% if ((fb_rev_change) == 'NA') %} Change {{fb_rev_change}}
@@ -128,7 +128,7 @@
           </div>
           <div class="panel-footer">
             Previous Month Value:
-            <span>$ {{ "{0:0.2f}".format(lm_ga_rev) }}</span>
+            <span>$ {{ "{:,.2f}".format(lm_ga_rev) }}</span>
             <br>
             <span>
               {% if ((ga_rev_change) == 'NA') %} Change {{ga_rev_change}}
