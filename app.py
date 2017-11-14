@@ -178,6 +178,7 @@ def getDetailPage(account=None):
     return render_template("detail.html", account=account, name=current_user.username)
 
 
+
 if __name__ == "__main__":
     # Setting debug to True enables debug output. This line should be
     # removed before deploying a production app.
