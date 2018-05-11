@@ -310,7 +310,8 @@
       .await(makeGraphs);
 
     function makeGraphs(error, json_projects) {
-      var dateFormat = d3.time.format("%Y-%m-%d");
+      var dateFormat = d3.time.format("%d-%m-%Y");
+
       json_projects.forEach(function (d) {
         d["Date"] = dateFormat.parse(d["Date"]);
         d["Post_engagements"] = +d["Post_engagements"];
@@ -455,7 +456,8 @@
         return
         d.value;
       }).group(totalLikesByDay);
-
+      var formatDecimalComma = d3.format(",.2f");
+      var formatComma = d3.format(",");
 
       dataTable
         .width(960)
@@ -473,22 +475,22 @@
             return d["Campaign_name"];
           },
           function (d) {
-            return d["Reach"];
+            return formatComma(d["Reach"]);
           },
           function (d) {
-            return d["Link_clicks"];
+            return formatComma(d["Link_clicks"]);
           },
           function (d) {
-            return d["Amount_spent"];
+            return "$ " + formatDecimalComma(d["Amount_spent"]);
           },
           function (d) {
-            return d["CTR"];
+            return formatDecimalComma(d["CTR"]);
           },
           function (d) {
-            return d["Post_engagements"];
+            return formatComma(d["Post_engagements"]);
           },
           function (d) {
-            return d["Page_likes"];
+            return formatComma(d["Page_likes"]);
           }
         ])
         .sortBy(function (d) {

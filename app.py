@@ -16,11 +16,14 @@ from flask_login import LoginManager, UserMixin, login_required, logout_user, cu
 # print a nice greeting.
 
 FIELDS = {}
+SQL_URI = "sqlite:///C:\\Users\\netsystem\\Documents\\projects\\report\\database.db"
+MONGO_URI = "mongodb://tejas:tejas@ds161793.mlab.com:61793/tejas-social"
+SECRET = 'thisissupposedtobeasecretmessage.'
 
 # EB looks for an 'application' callable by default.
 application = Flask(__name__)
-application.config['SECRET_KEY'] = ''
-application.config['SQLALCHEMY_DATABASE_URI'] = ""
+application.config['SECRET_KEY'] = SECRET
+application.config['SQLALCHEMY_DATABASE_URI'] = SQL_URI
 Bootstrap(application)
 db = SQLAlchemy(application)
 login_manager = LoginManager()
@@ -91,8 +94,7 @@ def logout():
 @login_required
 def home():
     companies = []
-    connection = pymongo.MongoClient(
-        '')
+    connection = pymongo.MongoClient(MONGO_URI)
     # which database and which collection to use goes here
     db = connection['tejas-social']['fb_data']
     results = db.find().distinct('Account')
@@ -108,8 +110,7 @@ def home():
 def summary(account=None):
     account = request.args.get('account')
     account = account.replace('_', ' ')
-    connection = pymongo.MongoClient(
-        '')
+    connection = pymongo.MongoClient(MONGO_URI)
     # which database and which collection to use goes here
     db = connection['tejas-social']['ga_data']
     results = db.find(
@@ -152,8 +153,7 @@ def summary(account=None):
 @application.route('/fbdata', methods=['GET'])
 @login_required
 def viewdbfile(account=None):
-    connection = pymongo.MongoClient(
-        '')
+    connection = pymongo.MongoClient(MONGO_URI)
     # which database and which collection to use goes here
     db = connection['tejas-social']['fb_data']
     account = request.args.get('account')
@@ -166,6 +166,7 @@ def viewdbfile(account=None):
             json_projects.append(result)
         json_projects = json.dumps(json_projects, default=json_util.default)
         connection.close()
+        
         return json_projects
     else:
         return 'error reading file..'
